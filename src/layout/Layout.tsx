@@ -10,7 +10,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => (
 
     <div className="mt-4 flex justify-center">
       <a
-        href="swhk.geniefriends.io"
+        href="https://swhk.geniefriends.io"
         className="rounded bg-blue-500 px-6 py-2 font-bold text-white hover:bg-blue-700"
       >
         Find me someone who is...
