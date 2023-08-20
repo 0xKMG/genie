@@ -1,17 +1,12 @@
-import { Meta } from '../layout/Meta';
-import { AppConfig } from '../utils/AppConfig';
-import { Banner } from './Banner';
-import { Footer } from './Footer';
-import { Hero } from './Hero';
-import { VerticalFeatures } from './VerticalFeatures';
-
 const Base = () => (
   <div className="text-gray-600 antialiased">
-    <Meta title={AppConfig.title} description={AppConfig.description} />
-    <Hero />
-    <VerticalFeatures />
-    <Banner />
-    <Footer />
+    <div>
+      <img
+        src="/assets/logo.png"
+        alt="Company Logo"
+        className="center h-auto w-auto" // or any other size you prefer
+      />
+    </div>
   </div>
 );
 

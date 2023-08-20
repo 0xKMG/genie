@@ -13,7 +13,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => (
         href="swhk.geniefriends.io"
         className="rounded bg-blue-500 px-6 py-2 font-bold text-white hover:bg-blue-700"
       >
-        Make Your Wish
+        Find me someone who is...
       </a>
     </div>
   </div>
