@@ -11,7 +11,7 @@ function About() {
 
   useEffect(() => {
     fetch(
-      'http://112.119.146.38:8000/ask_genie_suhk?query=I%20wish%20to%20find%20a%20ux%20designer&model=gpt-4',
+      'https://6d88-85-203-21-98.ngrok-free.app/ask_genie_suhk?query=find%20the%20smartest%20person&model=gpt-4',
     )
       .then((response) => {
         if (!response.ok) {
