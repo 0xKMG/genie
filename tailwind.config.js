@@ -14,6 +14,9 @@ module.exports = {
       '6xl': '4rem',
     },
     extend: {
+      boxShadow: {
+        outline: '0 0 15px 5px rgba(255, 206, 0, 0.5)', // Custom glow effect
+      },
       colors: {
         primary: {
           100: '#E6F6FE',
@@ -37,6 +40,7 @@ module.exports = {
           800: '#2d3748',
           900: '#1a202c',
         },
+        default: '#EBE9DF',
       },
       lineHeight: {
         hero: '4.5rem',
