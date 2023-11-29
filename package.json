@@ -21,6 +21,7 @@
     "next-seo": "^6.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-swipeable": "^7.0.1",
     "styled-jsx-plugin-postcss": "^4.0.1"
   },
   "devDependencies": {
