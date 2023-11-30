@@ -19,6 +19,7 @@ interface Guest {
   profile_pic: string;
   linkedin_url: string;
   profile_text: string;
+  slug: string;
 }
 
 interface PostProps {
@@ -33,6 +34,34 @@ interface StaticPropsParams {
 export default function Post({ postData }: PostProps) {
   const router = useRouter();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const enterTheWorld = async () => {
+    setIsLoading(true);
+
+    // Transform the slug back to the original name format
+    const nameForApi = postData.name
+      .split(' ')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+    const apiFormattedName = encodeURIComponent(nameForApi); // Format the name for the URL
+
+    const apiEndpoint = `https://ml.aska.ai/geniefriends/genie_wish?query=give%20me%205%20matches%20in%20this%20event&model=gpt-3.5-turbo&your_name=${apiFormattedName}`;
+
+    try {
+      const response = await fetch(apiEndpoint);
+      const data = await response.json();
+
+      router.push({
+        pathname: `/${postData.slug}/panel`,
+        query: { data: JSON.stringify(data.res) },
+      });
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -84,7 +113,11 @@ export default function Post({ postData }: PostProps) {
           <p className=" mb-6  text-xs">{postData.profile_text}</p>
         </div>
 
-        <button className="mx-auto mt-4 max-w-xs rounded-lg bg-white px-14 py-3 font-bold text-black">
+        <button
+          onClick={enterTheWorld}
+          disabled={isLoading}
+          className="mx-auto mt-4 max-w-xs rounded-lg bg-white px-14 py-3 font-bold text-black"
+        >
           ENTER THE WORLD
         </button>
       </div>
