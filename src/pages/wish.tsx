@@ -1,22 +1,4 @@
 export default function Wish() {
-  //   const [isLoading, setIsLoading] = useState(false);
-  //   const enterTheWorld = async () => {
-  //     setIsLoading(true);
-  //
-  //     const apiEndpoint = `https://ml.aska.ai/geniefriends/genie_wish?query=${query}your_name=${apiFormattedName}`;
-  //
-  //     setIsLoading(true);
-  //
-  //     try {
-  //       const response = await fetch(apiEndpoint);
-  //       const data = await response.json();
-  //     } catch (error) {
-  //       console.error('Error fetching data:', error);
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  // };
-
   return (
     <div className="flex min-h-screen flex-col items-center  bg-[#E4DDD6] p-12">
       <div className="mb-10 items-start">
@@ -28,7 +10,7 @@ export default function Wish() {
         />
       </div>
       <div className="text-center">
-        <h2 className="mb-12 text-4xl font-bold">MAKE A WISH</h2>
+        <h2 className="mb-12 text-4xl font-bold">MAKE A WISH (Coming Soon) </h2>
         <p className="text-s mb-12">
           Tell Genie what kind of person you’d like to meet and what you’d need
           them to help you — we’ll match the right ones for you.

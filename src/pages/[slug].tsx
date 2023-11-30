@@ -52,6 +52,12 @@ export default function Post({ postData }: PostProps) {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
+  const genieWish = () => {
+    router.push({
+      pathname: `/wish`,
+    });
+  };
+
   if (router.isFallback) {
     // Alternatively, you can create a loading component here.
     return <div>Loading...</div>;
@@ -71,12 +77,12 @@ export default function Post({ postData }: PostProps) {
     >
       {/* Transparent top bar */}
       <div className="absolute inset-x-0 top-0 flex items-center justify-center p-4 text-white">
-        <div>
+        {/* <div>
           <i
             className="fas fa-ellipsis-h text-2xl "
             onClick={toggleSidebar}
           ></i>{' '}
-        </div>
+        </div> */}
         <div className="mx-20">
           <img
             src="/assets/genie.png" // Placeholder for the logo
@@ -85,7 +91,8 @@ export default function Post({ postData }: PostProps) {
           />
         </div>
         <div>
-          <i className="fas fa-search text-2xl"></i> {/* Search icon */}
+          <i onClick={genieWish} className="fas fa-search text-2xl"></i>{' '}
+          {/* Search icon */}
         </div>
       </div>
       <div className="bg-opacity-50/50 flex items-center justify-between text-white"></div>

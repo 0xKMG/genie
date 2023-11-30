@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 import Panel from '@/components/GuestPanel';
+import Loader from '@/components/Loader';
 
 interface MatchData {
   id: number;
@@ -60,7 +61,9 @@ export default function GuestPanel() {
     }
   }, [slug]);
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) {
+    return <Loader />;
+  }
   if (fetchError) return <p>Error: {fetchError}</p>;
 
   return <Panel panelData={panelData} />;
