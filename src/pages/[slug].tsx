@@ -1,58 +1,87 @@
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 
-import attendees from '../../attendees.json';
+import SideBar from '@/components/SideBar';
 
-type Params = {
-  params: {
-    slug: string;
-  };
-};
+async function fetchAttendees() {
+  const response = await fetch(
+    'https://ml.aska.ai/geniefriends/get_guest_list?event_name=secretdinnerxv&passcode=magic',
+  );
+  if (!response.ok) {
+    throw new Error('Network response was not ok');
+  }
+  return response.json();
+}
+
+interface Guest {
+  name: string;
+  key: string;
+  profile_pic: string;
+  linkedin_url: string;
+  profile_text: string;
+}
 
 interface PostProps {
-  postData: {
-    team: string;
-    name: string;
-    linkedin: string;
-    attended_event: string;
-    linkedin_summary_gpt4: string;
-    linkedin_career_highlight_gpt4: string;
-    two_word_summary: string;
+  postData: Guest;
+}
+interface StaticPropsParams {
+  params: {
     slug: string;
   };
 }
 
 export default function Post({ postData }: PostProps) {
   const router = useRouter();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
 
   if (router.isFallback) {
     // Alternatively, you can create a loading component here.
     return <div>Loading...</div>;
   }
 
+  if (isSidebarOpen) {
+    return <SideBar onClose={toggleSidebar} />;
+  }
+
   return (
     <div
       className="relative h-screen bg-cover"
       style={{
-        backgroundImage: `url('/assets/${postData.slug}.jpg')`,
-        backgroundPosition: 'center',
+        backgroundImage: `url('${postData.profile_pic}')`,
+        backgroundPosition: '-300px',
       }}
     >
-      <div className="bg-opacity-50/50 flex items-center justify-between bg-black p-4 text-white">
+      {/* Transparent top bar */}
+      <div className="absolute inset-x-0 top-0 flex items-center justify-center p-4 text-white">
         <div>
-          <i className="fas fa-ellipsis-h"></i>
+          <i
+            className="fas fa-ellipsis-h text-2xl "
+            onClick={toggleSidebar}
+          ></i>{' '}
         </div>
-        <div>Genie Friends</div>
+        <div className="mx-20">
+          <img
+            src="/assets/genie.png" // Placeholder for the logo
+            alt="Company Logo"
+            style={{ height: '100px' }} // Adjust size as needed
+          />
+        </div>
         <div>
-          <i className="fas fa-search"></i>
+          <i className="fas fa-search text-2xl"></i> {/* Search icon */}
         </div>
       </div>
+      <div className="bg-opacity-50/50 flex items-center justify-between text-white"></div>
       <div className="absolute inset-x-0 bottom-20 p-10 text-center text-white">
         <div className=" mb-10 text-2xl font-bold">
           WELCOME, {postData.name.toUpperCase().split(' ')[0]}
         </div>
 
         <div className="mx-4 ">
-          <p className="mb-6">{postData.linkedin_summary_gpt4}</p>
+          <p className=" mb-6  text-xs">{postData.profile_text}</p>
         </div>
 
         <button className="mx-auto mt-4 max-w-xs rounded-lg bg-white px-14 py-3 font-bold text-black">
@@ -63,37 +92,35 @@ export default function Post({ postData }: PostProps) {
   );
 }
 
-// ...getStaticPaths and getStaticProps remain the same...
-function getAllPostIds() {
-  return attendees.map((attendee) => {
-    return {
-      params: {
-        slug: attendee.slug,
-      },
-    };
-  });
-}
 export async function getStaticPaths() {
-  const paths = getAllPostIds();
-  return {
-    paths,
-    fallback: false,
-  };
+  try {
+    const attendees: Guest[] = await fetchAttendees();
+    const paths = attendees.map((attendee: Guest) => ({
+      params: { slug: attendee.name.toLowerCase().replace(/ /g, '-') },
+    }));
+
+    return { paths, fallback: false };
+  } catch (error) {
+    console.error('Failed to fetch attendees:', error);
+    return { paths: [], fallback: false };
+  }
 }
 
-export async function getStaticProps({ params }: Params) {
-  const postData = attendees.find((attendee) => attendee.slug === params.slug);
+export async function getStaticProps({ params }: StaticPropsParams) {
+  try {
+    const attendees: Guest[] = await fetchAttendees();
+    const postData = attendees.find(
+      (attendee: Guest) =>
+        attendee.name.toLowerCase().replace(/ /g, '-') === params.slug,
+    );
 
-  // Ensure you have a fallback if postData is not found, or ensure every slug has corresponding data
-  if (!postData) {
-    return {
-      notFound: true,
-    };
+    if (!postData) {
+      return { notFound: true };
+    }
+
+    return { props: { postData } };
+  } catch (error) {
+    console.error('Failed to fetch attendee data:', error);
+    return { notFound: true };
   }
-
-  return {
-    props: {
-      postData,
-    },
-  };
 }

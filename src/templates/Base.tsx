@@ -2,7 +2,7 @@ const Base = () => (
   <div className="text-gray-600 antialiased">
     <div>
       <img
-        src="/assets/logo.png"
+        src="/assets/genie.png"
         alt="Company Logo"
         className="center h-auto w-auto" // or any other size you prefer
       />
