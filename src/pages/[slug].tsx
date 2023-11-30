@@ -36,31 +36,16 @@ export default function Post({ postData }: PostProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  function convertNameToSlug(name: string) {
+    return name.toLowerCase().split(' ').join('-');
+  }
+
   const enterTheWorld = async () => {
     setIsLoading(true);
-
-    // Transform the slug back to the original name format
-    const nameForApi = postData.name
-      .split(' ')
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
-    const apiFormattedName = encodeURIComponent(nameForApi); // Format the name for the URL
-
-    const apiEndpoint = `https://ml.aska.ai/geniefriends/genie_wish?query=give%20me%205%20matches%20in%20this%20event&model=gpt-3.5-turbo&your_name=${apiFormattedName}`;
-
-    try {
-      const response = await fetch(apiEndpoint);
-      const data = await response.json();
-
-      router.push({
-        pathname: `/${postData.slug}/panel`,
-        query: { data: JSON.stringify(data.res) },
-      });
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    } finally {
-      setIsLoading(false);
-    }
+    router.push({
+      pathname: `/${convertNameToSlug(postData.name)}/panel`,
+    });
+    setIsLoading(false);
   };
 
   const toggleSidebar = () => {
@@ -128,6 +113,7 @@ export default function Post({ postData }: PostProps) {
 export async function getStaticPaths() {
   try {
     const attendees: Guest[] = await fetchAttendees();
+
     const paths = attendees.map((attendee: Guest) => ({
       params: { slug: attendee.name.toLowerCase().replace(/ /g, '-') },
     }));

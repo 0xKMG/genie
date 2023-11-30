@@ -1,3 +1,4 @@
+// components/Panel.tsx
 import React from 'react';
 
 interface MatchData {
@@ -5,14 +6,13 @@ interface MatchData {
   name: string;
   role: string;
   description: string;
-  imageSrc: string; // Assuming you add image source to MatchData
+  imageSrc: string;
+  linkedin_url: string;
 }
 
 interface PanelProps {
   panelData: MatchData[];
 }
-
-// components/Panel.tsx
 
 const GuestPanel = ({ panelData }: PanelProps) => {
   return (
@@ -25,13 +25,22 @@ const GuestPanel = ({ panelData }: PanelProps) => {
             className="flex flex-col items-center rounded-xl bg-white p-4 shadow-md"
           >
             <img
-              src={item.imageSrc}
+              src={item.imageSrc || '/path/to/default/image.jpg'} // Provide a default image if imageSrc is empty
               alt={`Picture of ${item.name}`}
               className="h-32 w-32 rounded-full object-cover" // Adjust size as needed
             />
             <h3 className="mt-4 text-lg font-semibold">{item.name}</h3>
             <p className="text-sm text-gray-600">{item.role}</p>
             <p className="mt-2 text-center text-sm">{item.description}</p>
+            {item.linkedin_url && (
+              <a
+                href={item.linkedin_url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View LinkedIn Profile
+              </a>
+            )}
             {/* ... Other details ... */}
           </div>
         ))}

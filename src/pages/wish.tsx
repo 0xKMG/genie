@@ -1,4 +1,22 @@
 export default function Wish() {
+  //   const [isLoading, setIsLoading] = useState(false);
+  //   const enterTheWorld = async () => {
+  //     setIsLoading(true);
+  //
+  //     const apiEndpoint = `https://ml.aska.ai/geniefriends/genie_wish?query=${query}your_name=${apiFormattedName}`;
+  //
+  //     setIsLoading(true);
+  //
+  //     try {
+  //       const response = await fetch(apiEndpoint);
+  //       const data = await response.json();
+  //     } catch (error) {
+  //       console.error('Error fetching data:', error);
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  // };
+
   return (
     <div className="flex min-h-screen flex-col items-center  bg-[#E4DDD6] p-12">
       <div className="mb-10 items-start">
