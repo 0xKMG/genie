@@ -4,8 +4,9 @@ import { useState } from 'react';
 import SideBar from '@/components/SideBar';
 
 async function fetchAttendees() {
+  console.log('fetching');
   const response = await fetch(
-    'https://ml.aska.ai/geniefriends/get_guest_list?event_name=secretdinnerxv&passcode=magic',
+    'https://ml.aska.ai/geniefriends/get_guest_list?event_name=D1208-SG&passcode=magic',
   );
   if (!response.ok) {
     throw new Error('Network response was not ok');

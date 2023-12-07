@@ -66,5 +66,10 @@ export default function GuestPanel() {
   }
   if (fetchError) return <p>Error: {fetchError}</p>;
 
-  return <Panel panelData={panelData} />;
+  return (
+    <div className="flex min-h-screen flex-col items-center  bg-[#E4DDD6] p-12">
+      <h1>testing </h1>
+      <Panel panelData={panelData} />
+    </div>
+  );
 }
