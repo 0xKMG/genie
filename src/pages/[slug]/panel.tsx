@@ -61,14 +61,30 @@ export default function GuestPanel() {
     }
   }, [slug]);
 
+  const capitalize = (s: any) => {
+    if (typeof s !== 'string') return '';
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  };
+
+  const firstName = slug ? capitalize(slug.toString().split('-')[0]) : '';
+
   if (isLoading) {
     return <Loader />;
   }
   if (fetchError) return <p>Error: {fetchError}</p>;
 
   return (
-    <div className="flex min-h-screen flex-col items-center  bg-[#E4DDD6] p-12">
-      <h1>testing </h1>
+    <div className="flex min-h-screen flex-col justify-end bg-[#E4DDD6] p-12">
+      <h1 className="text-2xl ">Hello {firstName} 👋</h1>
+      <h1 className="mb-6 text-2xl font-bold">Meet your connections</h1>
+      <div className="flex items-center rounded-full bg-gray-200 px-4 py-2">
+        <i className="fas fa-search "></i>
+        <input
+          className="ml-2 mt-2 flex-1 bg-transparent outline-none"
+          type="text"
+        />
+      </div>
+      <h1 className="my-3  text-2xl">Genie&apos;s picks for you </h1>
       <Panel panelData={panelData} />
     </div>
   );
