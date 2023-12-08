@@ -55,7 +55,7 @@ export default function Post({ postData }: PostProps) {
 
   const genieWish = () => {
     router.push({
-      pathname: `/wish`,
+      pathname: `/${convertNameToSlug(postData.name)}/wish`,
     });
   };
 

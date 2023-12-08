@@ -9,9 +9,9 @@ export default async function handler(req, res) {
   }
 
   try {
-    const apiUrl = `https://ml.aska.ai/geniefriends/genie_wish?query=give%20me%205%20matches%20&model=gpt-3.5-turbo&your_name=${formatSlugToName(
+    const apiUrl = `https://ml.aska.ai/geniefriends/genie_wish?query=give%20me%205%20potential%20friends&model=gpt-3.5-turbo&your_name=${formatSlugToName(
       slug,
-    )}&event_name=secretdinnerxv`;
+    )}&event_name=D1208-SG`;
 
     const apiRes = await fetch(apiUrl);
     if (!apiRes.ok) throw new Error('Failed to fetch.');
