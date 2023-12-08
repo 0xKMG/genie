@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
+import Loader from '@/components/Loader';
 import SideBar from '@/components/SideBar';
 
 async function fetchAttendees() {
@@ -84,9 +85,13 @@ export default function Post({ postData }: PostProps) {
     return <SideBar onClose={toggleSidebar} />;
   }
 
+  if (isLoading) {
+    return <Loader />;
+  }
+
   return isSearchOpen ? (
     <div className="flex min-h-screen flex-col items-center  bg-[#E4DDD6] p-12">
-      <div className="mb-10 items-start">
+      <div cursor-pointeronClick={toggleSearch} className="mb-10 items-start">
         <img
           src="/assets/genie.png"
           alt="Company Logo"

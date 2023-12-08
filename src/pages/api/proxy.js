@@ -1,6 +1,7 @@
 // pages/api/proxy.js
 export default async function handler(req, res) {
   const { slug } = req.query;
+
   function formatSlugToName(_slug) {
     return _slug
       .split('-') // Split the slug by hyphens
