@@ -7,6 +7,9 @@ async function fetchAttendees() {
   const response = await fetch(
     'https://ml.aska.ai/geniefriends/get_guest_list?event_name=D1208-SG&passcode=magic',
   );
+
+  console.log('fetching');
+
   if (!response.ok) {
     throw new Error('Network response was not ok');
   }
