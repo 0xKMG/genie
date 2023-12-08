@@ -11,38 +11,11 @@ export default function Wish() {
     setWish(e.target.value);
   };
 
-  const formatSlugToName = (_slug: any) => {
-    return _slug
-      .split('-')
-      .map((word: any) => word.charAt(0) + word.slice(1))
-      .join(' ');
-  };
-
-  console.log(formatSlugToName(slug));
-
   const handleSubmit = async () => {
-    try {
-      const apiUrl = `https://ml.aska.ai/geniefriends/genie_wish?query=${encodeURIComponent(
-        wish,
-      )}&model=gpt-3.5-turbo&your_name=${formatSlugToName(
-        slug,
-      )}&event_name=D1208-SG`;
-
-      console.log(apiUrl);
-
-      const response = await fetch(apiUrl);
-      if (!response.ok) {
-        throw new Error('Failed to submit wish');
-      }
-
-      console.log(response);
-
-      const data = await response.json();
-      // Navigate to the panel page with the fetched data
-      router.push(`/${slug}/panel`, { query: { data: JSON.stringify(data) } });
-    } catch (error) {
-      console.error('Error submitting wish:', error);
-    }
+    // Navigate to the panel page with the fetched data
+    router.push(`/${slug}/panel`, {
+      query: { wish: encodeURIComponent(wish) },
+    });
   };
 
   return (

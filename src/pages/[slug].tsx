@@ -4,7 +4,6 @@ import { useState } from 'react';
 import SideBar from '@/components/SideBar';
 
 async function fetchAttendees() {
-  console.log('fetching');
   const response = await fetch(
     'https://ml.aska.ai/geniefriends/get_guest_list?event_name=D1208-SG&passcode=magic',
   );
@@ -33,9 +32,16 @@ interface StaticPropsParams {
 }
 
 export default function Post({ postData }: PostProps) {
+  const [wish, setWish] = useState('');
+  // Assuming the slug is available in the query
+  const handleWishChange = (e: any) => {
+    setWish(e.target.value);
+  };
+
   const router = useRouter();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   function convertNameToSlug(name: string) {
     return name.toLowerCase().split(' ').join('-');
@@ -49,14 +55,21 @@ export default function Post({ postData }: PostProps) {
     setIsLoading(false);
   };
 
+  const handleSubmit = async () => {
+    // Navigate to the panel page with the fetched data
+    setIsLoading(true);
+    router.push({
+      pathname: `/${convertNameToSlug(postData.name)}/panel`,
+    });
+    setIsLoading(false);
+  };
+
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  const genieWish = () => {
-    router.push({
-      pathname: `/${convertNameToSlug(postData.name)}/wish`,
-    });
+  const toggleSearch = () => {
+    setIsSearchOpen(!isSearchOpen);
   };
 
   if (router.isFallback) {
@@ -68,7 +81,39 @@ export default function Post({ postData }: PostProps) {
     return <SideBar onClose={toggleSidebar} />;
   }
 
-  return (
+  return isSearchOpen ? (
+    <div className="flex min-h-screen flex-col items-center  bg-[#E4DDD6] p-12">
+      <div className="mb-10 items-start">
+        <img
+          src="/assets/genie.png"
+          alt="Company Logo"
+          className="brightness-0 grayscale"
+          style={{ height: '100px' }}
+        />
+      </div>
+      <div className="text-center">
+        <h2 className="mb-12 text-4xl font-bold">MAKE A WISH </h2>
+        <p className="text-s mb-12">
+          Tell Genie what kind of person you’d like to meet and what you’d need
+          them to help you — we’ll match the right ones for you.
+        </p>
+        <div className="mb-8">
+          <textarea
+            className="h-40 w-full resize-none rounded-lg border-2 border-black bg-[#E4DDD6] p-4 text-lg"
+            placeholder="Enter your wish here"
+            value={wish}
+            onChange={handleWishChange}
+          ></textarea>
+        </div>
+        <button
+          onClick={handleSubmit}
+          className="w-full rounded-lg bg-black py-4 text-lg font-semibold text-white"
+        >
+          SUBMIT
+        </button>
+      </div>
+    </div>
+  ) : (
     <div
       className="relative h-screen bg-cover"
       style={{
@@ -92,7 +137,7 @@ export default function Post({ postData }: PostProps) {
           />
         </div>
         <div>
-          <i onClick={genieWish} className="fas fa-search text-2xl"></i>{' '}
+          <i onClick={toggleSearch} className="fas fa-search text-2xl"></i>{' '}
           {/* Search icon */}
         </div>
       </div>
@@ -147,7 +192,6 @@ export async function getStaticProps({ params }: StaticPropsParams) {
 
     return { props: { postData } };
   } catch (error) {
-    console.error('Failed to fetch attendee data:', error);
     return { notFound: true };
   }
 }
